@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NutriTech - Performance Modes</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="index.html" class="nav-logo">
+          <i class="fas fa-leaf"></i>
+          <span>NutriTech</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="calculator.html">Calculator</a></li>
+          <li><a href="modes.html">Modes</a></li>
+          <li><a href="features.html">Features</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </div>
+      <button class="chatbot-toggle" id="chatbot-toggle" title="AI Dietitian">
+        <i class="fas fa-comment-dots"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- PERFORMANCE MODES SECTION -->
+  <section id="performance-modes" class="performance-modes-section page-top">
+    <div class="section-header">
+      <h2>Performance <span class="gradient-text">Modes</span></h2>
+      <p>Choose your optimization goal — meals adapt automatically</p>
+    </div>
+    <div class="modes-grid" id="modes-grid">
+      <div class="mode-card" data-mode="focus" onclick="selectMode('focus')">
+        <div class="mode-icon">🧠</div>
+        <h3>Focus Mode</h3>
+        <p>Sharpen your mind, fuel your brain</p>
+        <span class="mode-tag">For deep work & coding</span>
+      </div>
+      <div class="mode-card" data-mode="energy" onclick="selectMode('energy')">
+        <div class="mode-icon">⚡</div>
+        <h3>Energy Mode</h3>
+        <p>Maximum energy, all day long</p>
+        <span class="mode-tag">No energy crashes</span>
+      </div>
+      <div class="mode-card" data-mode="muscle" onclick="selectMode('muscle')">
+        <div class="mode-icon">💪</div>
+        <h3>Muscle Mode</h3>
+        <p>Build lean muscle, optimize recovery</p>
+        <span class="mode-tag">High protein surplus</span>
+      </div>
+      <div class="mode-card" data-mode="fatloss" onclick="selectMode('fatloss')">
+        <div class="mode-icon">🔥</div>
+        <h3>Fat Loss Mode</h3>
+        <p>Burn fat, keep muscle, stay strong</p>
+        <span class="mode-tag">Smart calorie deficit</span>
+      </div>
+    </div>
+    <div class="mode-detail hidden" id="mode-detail">
+      <div class="mode-detail-header" id="mode-detail-header"></div>
+      <div class="mode-detail-body" id="mode-detail-body"></div>
+    </div>
+  </section>
+
+  <!-- REGIONAL MODE SECTION -->
+  <section id="regional-mode" class="regional-section">
+    <div class="section-header">
+      <h2>Indian Regional <span class="gradient-text">Mode</span></h2>
+      <p>Meal plans from your state, your culture, your taste</p>
+    </div>
+    <div class="region-selector" id="region-selector">
+      <button class="region-btn" data-region="tamilnadu" onclick="selectRegion('tamilnadu')">
+        <span class="region-flag">🏛️</span> Tamil Nadu
+      </button>
+      <button class="region-btn" data-region="kerala" onclick="selectRegion('kerala')">
+        <span class="region-flag">🌴</span> Kerala
+      </button>
+      <button class="region-btn" data-region="northindian" onclick="selectRegion('northindian')">
+        <span class="region-flag">🏔️</span> North Indian
+      </button>
+      <button class="region-btn" data-region="karnataka" onclick="selectRegion('karnataka')">
+        <span class="region-flag">🏰</span> Karnataka
+      </button>
+      <button class="region-btn" data-region="telangana" onclick="selectRegion('telangana')">
+        <span class="region-flag">🌶️</span> Telangana / AP
+      </button>
+    </div>
+    <div class="regional-foods hidden" id="regional-foods">
+      <div class="regional-meals-grid" id="regional-meals-grid"></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <i class="fas fa-leaf"></i> NutriTech
+      </div>
+      <p>&copy; 2026 NutriTech. All rights reserved.</p>
+      <p>Your Personal Nutrition Guide</p>
+    </div>
+  </footer>
+
+  <!-- AI CHATBOT MODAL -->
+  <div class="chatbot-panel hidden" id="chatbot-panel">
+    <div class="chatbot-header">
+      <div class="chatbot-title">
+        <i class="fas fa-robot"></i>
+        <span>NutriBot — AI Dietitian</span>
+      </div>
+      <button class="chatbot-close" id="chatbot-close">&times;</button>
+    </div>
+    <div class="chatbot-messages" id="chatbot-messages">
+      <div class="chat-message bot-message">
+        <div class="chat-avatar"><i class="fas fa-robot"></i></div>
+        <div class="chat-text">
+          Hi! I'm NutriBot 🥗 Ask me about nutrition, energy, muscle building, weight loss, digestion — anything food-related!
+        </div>
+      </div>
+    </div>
+    <div class="chatbot-input-area">
+      <input type="text" id="chatbot-input" placeholder="Ask me about nutrition..." />
+      <button class="chatbot-send" id="chatbot-send">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay hidden">
+    <div class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Loading...</p>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="common.js"></script>
+  <script src="modes.js"></script>
+</body>
+</html>

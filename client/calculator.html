@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NutriTech - Nutrition Calculator</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="index.html" class="nav-logo">
+          <i class="fas fa-leaf"></i>
+          <span>NutriTech</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="calculator.html">Calculator</a></li>
+          <li><a href="modes.html">Modes</a></li>
+          <li><a href="features.html">Features</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </div>
+      <button class="chatbot-toggle" id="chatbot-toggle" title="AI Dietitian">
+        <i class="fas fa-comment-dots"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- CALCULATOR SECTION -->
+  <section id="calculator" class="calculator-section page-top">
+    <div class="section-header">
+      <h2>Nutrition <span class="gradient-text">Calculator</span></h2>
+      <p>Enter your details to get a personalized nutrition plan</p>
+    </div>
+
+    <div class="calculator-container">
+      <!-- STEP INDICATOR -->
+      <div class="step-indicator">
+        <div class="step active" data-step="1">
+          <div class="step-circle">1</div>
+          <span>Basic Info</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step" data-step="2">
+          <div class="step-circle">2</div>
+          <span>Lifestyle</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step" data-step="3">
+          <div class="step-circle">3</div>
+          <span>Goal</span>
+        </div>
+      </div>
+
+      <form id="nutrition-form">
+        <!-- STEP 1: Basic Info -->
+        <div class="form-step active" id="step-1">
+          <h3><i class="fas fa-user"></i> Tell us about yourself</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="age">Age (years)</label>
+              <input type="number" id="age" name="age" min="15" max="80" placeholder="e.g., 25" required />
+            </div>
+            <div class="form-group">
+              <label for="gender">Gender</label>
+              <select id="gender" name="gender" required>
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="weight">Weight (kg)</label>
+              <input type="number" id="weight" name="weight" min="30" max="200" step="0.1" placeholder="e.g., 70" required />
+            </div>
+            <div class="form-group">
+              <label for="height">Height (cm)</label>
+              <input type="number" id="height" name="height" min="120" max="230" step="0.1" placeholder="e.g., 175" required />
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-primary" onclick="nextStep(2)">
+              Next <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2: Lifestyle -->
+        <div class="form-step" id="step-2">
+          <h3><i class="fas fa-briefcase"></i> Your Lifestyle</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="jobType">Job Type</label>
+              <select id="jobType" name="jobType" required>
+                <option value="">Select Job Type</option>
+                <option value="desk">Desk Job (IT / Office)</option>
+                <option value="moderate">Moderate (Teaching / Sales)</option>
+                <option value="active">Active (Field / Construction)</option>
+                <option value="heavy">Heavy Labor</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="exerciseFrequency">Exercise Frequency</label>
+              <select id="exerciseFrequency" name="exerciseFrequency" required>
+                <option value="">Select Frequency</option>
+                <option value="none">No Exercise</option>
+                <option value="light">Light (1-2 days/week)</option>
+                <option value="moderate">Moderate (3-4 days/week)</option>
+                <option value="intense">Intense (5-6 days/week)</option>
+                <option value="athlete">Athlete (Daily)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="dietPreference">Diet Preference</label>
+              <select id="dietPreference" name="dietPreference" required>
+                <option value="">Select Preference</option>
+                <option value="veg">Vegetarian</option>
+                <option value="nonveg">Non-Vegetarian</option>
+                <option value="eggetarian">Eggetarian</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-outline" onclick="prevStep(1)">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <button type="button" class="btn btn-primary" onclick="nextStep(3)">
+              Next <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 3: Goal -->
+        <div class="form-step" id="step-3">
+          <h3><i class="fas fa-bullseye"></i> Your Fitness Goal</h3>
+          <div class="goal-cards">
+            <label class="goal-card">
+              <input type="radio" name="goal" value="weight_loss" required />
+              <div class="goal-content">
+                <i class="fas fa-weight-scale"></i>
+                <h4>Weight Loss</h4>
+                <p>Lose fat effectively</p>
+              </div>
+            </label>
+            <label class="goal-card">
+              <input type="radio" name="goal" value="mild_weight_loss" />
+              <div class="goal-content">
+                <i class="fas fa-fire-flame-curved"></i>
+                <h4>Mild Weight Loss</h4>
+                <p>Gradual & sustainable</p>
+              </div>
+            </label>
+            <label class="goal-card">
+              <input type="radio" name="goal" value="maintenance" />
+              <div class="goal-content">
+                <i class="fas fa-balance-scale"></i>
+                <h4>Maintenance</h4>
+                <p>Stay at current weight</p>
+              </div>
+            </label>
+            <label class="goal-card">
+              <input type="radio" name="goal" value="muscle_gain" />
+              <div class="goal-content">
+                <i class="fas fa-dumbbell"></i>
+                <h4>Muscle Gain</h4>
+                <p>Build lean muscle</p>
+              </div>
+            </label>
+            <label class="goal-card">
+              <input type="radio" name="goal" value="energy_boost" />
+              <div class="goal-content">
+                <i class="fas fa-bolt"></i>
+                <h4>Energy Boost</h4>
+                <p>Maximize daily energy</p>
+              </div>
+            </label>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-outline" onclick="prevStep(2)">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <button type="submit" class="btn btn-primary btn-lg">
+              <i class="fas fa-magic"></i> Generate My Plan
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- RESULTS SECTION (Hidden initially) -->
+  <section id="results" class="results-section hidden">
+    <div class="section-header">
+      <h2>Your <span class="gradient-text">Nutrition Plan</span></h2>
+      <p>Personalized just for you</p>
+    </div>
+
+    <!-- Overview Cards -->
+    <div class="overview-grid">
+      <div class="overview-card calories-card">
+        <div class="overview-icon"><i class="fas fa-fire"></i></div>
+        <div class="overview-info">
+          <span class="overview-label">Daily Calories</span>
+          <span class="overview-value" id="result-calories">--</span>
+          <span class="overview-sub">kcal/day</span>
+        </div>
+      </div>
+      <div class="overview-card protein-card">
+        <div class="overview-icon"><i class="fas fa-drumstick-bite"></i></div>
+        <div class="overview-info">
+          <span class="overview-label">Protein</span>
+          <span class="overview-value" id="result-protein">--</span>
+          <span class="overview-sub">grams/day</span>
+        </div>
+      </div>
+      <div class="overview-card carbs-card">
+        <div class="overview-icon"><i class="fas fa-bread-slice"></i></div>
+        <div class="overview-info">
+          <span class="overview-label">Carbs</span>
+          <span class="overview-value" id="result-carbs">--</span>
+          <span class="overview-sub">grams/day</span>
+        </div>
+      </div>
+      <div class="overview-card fat-card">
+        <div class="overview-icon"><i class="fas fa-droplet"></i></div>
+        <div class="overview-info">
+          <span class="overview-label">Fat</span>
+          <span class="overview-value" id="result-fat">--</span>
+          <span class="overview-sub">grams/day</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- BMI & Extra Info -->
+    <div class="info-row">
+      <div class="info-card">
+        <h3><i class="fas fa-chart-line"></i> Body Stats</h3>
+        <div class="info-items">
+          <div class="info-item">
+            <span>BMI</span>
+            <span id="result-bmi">--</span>
+          </div>
+          <div class="info-item">
+            <span>Category</span>
+            <span id="result-bmi-category">--</span>
+          </div>
+          <div class="info-item">
+            <span>BMR</span>
+            <span id="result-bmr">-- kcal</span>
+          </div>
+          <div class="info-item">
+            <span>TDEE</span>
+            <span id="result-tdee">-- kcal</span>
+          </div>
+        </div>
+      </div>
+      <div class="info-card">
+        <h3><i class="fas fa-glass-water"></i> Daily Recommendations</h3>
+        <div class="info-items">
+          <div class="info-item">
+            <span>Water Intake</span>
+            <span id="result-water">-- ml</span>
+          </div>
+          <div class="info-item">
+            <span>Activity Level</span>
+            <span id="result-activity">--</span>
+          </div>
+          <div class="info-item">
+            <span>Protein/kg</span>
+            <span id="result-protein-per-kg">-- g/kg</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Macro Chart -->
+    <div class="chart-container">
+      <h3><i class="fas fa-chart-pie"></i> Macro Distribution</h3>
+      <div class="macro-chart">
+        <div class="macro-bar-container">
+          <div class="macro-bar" id="protein-bar">
+            <span class="macro-bar-label">Protein</span>
+            <span class="macro-bar-value" id="protein-bar-value">0%</span>
+          </div>
+          <div class="macro-bar" id="carbs-bar">
+            <span class="macro-bar-label">Carbs</span>
+            <span class="macro-bar-value" id="carbs-bar-value">0%</span>
+          </div>
+          <div class="macro-bar" id="fat-bar">
+            <span class="macro-bar-label">Fat</span>
+            <span class="macro-bar-value" id="fat-bar-value">0%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Meal Plan -->
+    <div class="meal-plan-container">
+      <div class="meal-plan-header">
+        <h3><i class="fas fa-utensils"></i> Your Personalized Meal Plan</h3>
+        <button class="btn btn-outline btn-sm" id="regenerate-btn">
+          <i class="fas fa-refresh"></i> Regenerate Plan
+        </button>
+      </div>
+
+      <div class="meals-grid">
+        <div class="meal-card">
+          <div class="meal-header breakfast-header">
+            <i class="fas fa-sun"></i>
+            <h4>Breakfast</h4>
+            <span class="meal-cal" id="breakfast-cal">-- kcal</span>
+          </div>
+          <ul class="meal-items" id="breakfast-items"></ul>
+        </div>
+        <div class="meal-card">
+          <div class="meal-header lunch-header">
+            <i class="fas fa-cloud-sun"></i>
+            <h4>Lunch</h4>
+            <span class="meal-cal" id="lunch-cal">-- kcal</span>
+          </div>
+          <ul class="meal-items" id="lunch-items"></ul>
+        </div>
+        <div class="meal-card">
+          <div class="meal-header snacks-header">
+            <i class="fas fa-cookie-bite"></i>
+            <h4>Snacks</h4>
+            <span class="meal-cal" id="snacks-cal">-- kcal</span>
+          </div>
+          <ul class="meal-items" id="snacks-items"></ul>
+        </div>
+        <div class="meal-card">
+          <div class="meal-header dinner-header">
+            <i class="fas fa-moon"></i>
+            <h4>Dinner</h4>
+            <span class="meal-cal" id="dinner-cal">-- kcal</span>
+          </div>
+          <ul class="meal-items" id="dinner-items"></ul>
+        </div>
+      </div>
+
+      <div class="totals-bar">
+        <div class="total-item">
+          <span>Total Calories</span>
+          <strong id="total-calories">--</strong>
+        </div>
+        <div class="total-item">
+          <span>Total Protein</span>
+          <strong id="total-protein">--g</strong>
+        </div>
+        <div class="total-item">
+          <span>Total Carbs</span>
+          <strong id="total-carbs">--g</strong>
+        </div>
+        <div class="total-item">
+          <span>Total Fat</span>
+          <strong id="total-fat">--g</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recalculate button -->
+    <div class="recalculate-container">
+      <button class="btn btn-primary btn-lg" onclick="scrollToCalculator()">
+        <i class="fas fa-redo"></i> Recalculate
+      </button>
+    </div>
+
+    <!-- ENERGY SCORE SECTION -->
+    <div class="energy-score-section" id="energy-score-section">
+      <div class="section-sub-header">
+        <h3><i class="fas fa-bolt"></i> AI Energy Score</h3>
+        <p>How optimized is your energy today?</p>
+      </div>
+      <div class="energy-form-row">
+        <div class="form-group-mini">
+          <label>Sleep (hrs)</label>
+          <input type="number" id="es-sleep" min="0" max="14" step="0.5" value="7" />
+        </div>
+        <div class="form-group-mini">
+          <label>Steps</label>
+          <input type="number" id="es-steps" min="0" max="50000" step="100" value="5000" />
+        </div>
+        <div class="form-group-mini">
+          <label>Water (L)</label>
+          <input type="number" id="es-water" min="0" max="10" step="0.1" value="2.0" />
+        </div>
+        <div class="form-group-mini">
+          <label>Workout (min)</label>
+          <input type="number" id="es-workout" min="0" max="300" step="5" value="30" />
+        </div>
+        <button class="btn btn-primary btn-sm" id="calc-energy-btn">
+          <i class="fas fa-bolt"></i> Calculate Score
+        </button>
+      </div>
+      <div class="energy-result hidden" id="energy-result">
+        <div class="energy-score-display">
+          <div class="energy-circle">
+            <span class="energy-number" id="energy-number">--</span>
+            <span class="energy-label">/ 100</span>
+          </div>
+          <div class="energy-grade" id="energy-grade">--</div>
+        </div>
+        <div class="energy-breakdown" id="energy-breakdown"></div>
+        <div class="energy-tips" id="energy-tips"></div>
+      </div>
+    </div>
+
+    <!-- HEALTH RISK SECTION -->
+    <div class="health-risk-section" id="health-risk-section">
+      <div class="section-sub-header">
+        <h3><i class="fas fa-shield-heart"></i> Health Risk Predictor</h3>
+        <p>Early awareness, preventive action</p>
+      </div>
+      <div class="health-risk-form">
+        <div class="form-row-compact">
+          <div class="form-group-mini">
+            <label>Waist (cm)</label>
+            <input type="number" id="hr-waist" min="50" max="180" value="80" />
+          </div>
+          <div class="form-group-mini">
+            <label>Sleep (hrs)</label>
+            <input type="number" id="hr-sleep" min="0" max="14" step="0.5" value="7" />
+          </div>
+          <div class="form-group-mini">
+            <label>Stress Level</label>
+            <select id="hr-stress">
+              <option value="low">Low</option>
+              <option value="moderate" selected>Moderate</option>
+              <option value="high">High</option>
+              <option value="extreme">Extreme</option>
+            </select>
+          </div>
+          <div class="form-group-mini">
+            <label>Smoking</label>
+            <select id="hr-smoking">
+              <option value="no" selected>No</option>
+              <option value="occasional">Occasional</option>
+              <option value="regular">Regular</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row-compact">
+          <div class="form-group-mini">
+            <label>Alcohol</label>
+            <select id="hr-alcohol">
+              <option value="none" selected>None</option>
+              <option value="moderate">Moderate</option>
+              <option value="heavy">Heavy</option>
+            </select>
+          </div>
+          <div class="form-group-mini">
+            <label>Family History</label>
+            <select id="hr-family" multiple>
+              <option value="diabetes">Diabetes</option>
+              <option value="heart_disease">Heart Disease</option>
+              <option value="hypertension">Hypertension</option>
+              <option value="obesity">Obesity</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm" id="calc-risk-btn">
+          <i class="fas fa-shield-heart"></i> Predict Risks
+        </button>
+      </div>
+      <div class="health-risk-result hidden" id="health-risk-result">
+        <div class="risk-cards" id="risk-cards"></div>
+      </div>
+    </div>
+
+    <!-- MEAL SCANNER SECTION -->
+    <div class="meal-scanner-section" id="meal-scanner-section">
+      <div class="section-sub-header">
+        <h3><i class="fas fa-camera"></i> AI Meal Scanner</h3>
+        <p>Describe your meal, get instant nutrition info</p>
+      </div>
+      <div class="scanner-input-row">
+        <input type="text" id="scanner-input" placeholder="e.g., idli sambar, chicken biryani, dosa chutney..." class="scanner-textbox" />
+        <button class="btn btn-primary btn-sm" id="scan-meal-btn">
+          <i class="fas fa-search"></i> Scan
+        </button>
+      </div>
+      <div class="scanner-result hidden" id="scanner-result">
+        <div class="scanner-meal-name" id="scanner-meal-name"></div>
+        <div class="scanner-confidence" id="scanner-confidence"></div>
+        <div class="scanner-items" id="scanner-items"></div>
+        <div class="scanner-totals" id="scanner-totals"></div>
+        <div class="scanner-suggestion" id="scanner-suggestion"></div>
+      </div>
+    </div>
+
+    <!-- GROCERY LIST SECTION -->
+    <div class="grocery-section" id="grocery-section">
+      <div class="section-sub-header">
+        <h3><i class="fas fa-cart-shopping"></i> Smart Grocery List</h3>
+        <p>Auto-generated from your meal plan</p>
+      </div>
+      <div class="grocery-controls">
+        <select id="grocery-days">
+          <option value="3">3 Days</option>
+          <option value="7" selected>7 Days</option>
+          <option value="14">14 Days</option>
+        </select>
+        <button class="btn btn-primary btn-sm" id="generate-grocery-btn">
+          <i class="fas fa-cart-shopping"></i> Generate List
+        </button>
+      </div>
+      <div class="grocery-result hidden" id="grocery-result">
+        <div class="grocery-categories" id="grocery-categories"></div>
+        <div class="grocery-total" id="grocery-total"></div>
+        <div class="grocery-stores" id="grocery-stores"></div>
+      </div>
+    </div>
+
+    <!-- STREAK & REWARDS SECTION -->
+    <div class="streak-section" id="streak-section">
+      <div class="section-sub-header">
+        <h3><i class="fas fa-fire-flame-curved"></i> Fitness Streak & Rewards</h3>
+        <p>Stay consistent, earn achievements</p>
+      </div>
+      <div class="streak-user-row">
+        <input type="text" id="streak-user-id" placeholder="Enter your username" class="streak-input" />
+        <button class="btn btn-primary btn-sm" id="log-streak-btn">
+          <i class="fas fa-check"></i> Log Today
+        </button>
+        <button class="btn btn-outline btn-sm" id="view-streak-btn">
+          <i class="fas fa-chart-line"></i> View Stats
+        </button>
+      </div>
+      <div class="streak-result hidden" id="streak-result">
+        <div class="streak-stats" id="streak-stats"></div>
+        <div class="streak-achievements" id="streak-achievements"></div>
+        <div class="streak-leaderboard" id="streak-leaderboard"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <i class="fas fa-leaf"></i> NutriTech
+      </div>
+      <p>&copy; 2026 NutriTech. All rights reserved.</p>
+      <p>Your Personal Nutrition Guide</p>
+    </div>
+  </footer>
+
+  <!-- AI CHATBOT MODAL -->
+  <div class="chatbot-panel hidden" id="chatbot-panel">
+    <div class="chatbot-header">
+      <div class="chatbot-title">
+        <i class="fas fa-robot"></i>
+        <span>NutriBot — AI Dietitian</span>
+      </div>
+      <button class="chatbot-close" id="chatbot-close">&times;</button>
+    </div>
+    <div class="chatbot-messages" id="chatbot-messages">
+      <div class="chat-message bot-message">
+        <div class="chat-avatar"><i class="fas fa-robot"></i></div>
+        <div class="chat-text">
+          Hi! I'm NutriBot 🥗 Ask me about nutrition, energy, muscle building, weight loss, digestion — anything food-related!
+        </div>
+      </div>
+    </div>
+    <div class="chatbot-input-area">
+      <input type="text" id="chatbot-input" placeholder="Ask me about nutrition..." />
+      <button class="chatbot-send" id="chatbot-send">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay hidden">
+    <div class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Calculating your personalized plan...</p>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="common.js"></script>
+  <script src="calculator.js"></script>
+</body>
+</html>

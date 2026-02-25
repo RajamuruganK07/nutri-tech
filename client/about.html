@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NutriTech - About Us</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="index.html" class="nav-logo">
+          <i class="fas fa-leaf"></i>
+          <span>NutriTech</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="calculator.html">Calculator</a></li>
+          <li><a href="modes.html">Modes</a></li>
+          <li><a href="features.html">Features</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </div>
+      <button class="chatbot-toggle" id="chatbot-toggle" title="AI Dietitian">
+        <i class="fas fa-comment-dots"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ABOUT SECTION -->
+  <section id="about" class="about-section page-top">
+    <div class="section-header">
+      <h2>About <span class="gradient-text">NutriTech</span></h2>
+      <p>Built with passion by</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar"><i class="fas fa-user"></i></div>
+        <h4>Rajamurugan</h4>
+        <p>Co-Founder</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><i class="fas fa-user"></i></div>
+        <h4>Shyam Sundar</h4>
+        <p>Co-Founder</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><i class="fas fa-user"></i></div>
+        <h4>Yogeshwaran</h4>
+        <p>Co-Founder</p>
+      </div>
+    </div>
+    <div class="about-tagline">
+      <p>"Right Nutrition Today, Stronger Tomorrow."</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <i class="fas fa-leaf"></i> NutriTech
+      </div>
+      <p>&copy; 2026 NutriTech. All rights reserved.</p>
+      <p>Your Personal Nutrition Guide</p>
+    </div>
+  </footer>
+
+  <!-- AI CHATBOT MODAL -->
+  <div class="chatbot-panel hidden" id="chatbot-panel">
+    <div class="chatbot-header">
+      <div class="chatbot-title">
+        <i class="fas fa-robot"></i>
+        <span>NutriBot — AI Dietitian</span>
+      </div>
+      <button class="chatbot-close" id="chatbot-close">&times;</button>
+    </div>
+    <div class="chatbot-messages" id="chatbot-messages">
+      <div class="chat-message bot-message">
+        <div class="chat-avatar"><i class="fas fa-robot"></i></div>
+        <div class="chat-text">
+          Hi! I'm NutriBot 🥗 Ask me about nutrition, energy, muscle building, weight loss, digestion — anything food-related!
+        </div>
+      </div>
+    </div>
+    <div class="chatbot-input-area">
+      <input type="text" id="chatbot-input" placeholder="Ask me about nutrition..." />
+      <button class="chatbot-send" id="chatbot-send">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay hidden">
+    <div class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Loading...</p>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="common.js"></script>
+</body>
+</html>

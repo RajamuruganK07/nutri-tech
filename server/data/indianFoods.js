@@ -1,0 +1,88 @@
+/**
+ * NutriTech - Indian Food Database
+ * Comprehensive database of Indian foods with nutritional values per serving
+ */
+
+const indianFoods = {
+  breakfast: [
+    { name: "Idli (2 pcs)", calories: 130, protein: 4, carbs: 26, fat: 1, category: "veg" },
+    { name: "Dosa (1 plain)", calories: 120, protein: 3, carbs: 18, fat: 4, category: "veg" },
+    { name: "Masala Dosa", calories: 250, protein: 6, carbs: 30, fat: 12, category: "veg" },
+    { name: "Upma (1 bowl)", calories: 210, protein: 5, carbs: 32, fat: 7, category: "veg" },
+    { name: "Poha (1 bowl)", calories: 180, protein: 4, carbs: 30, fat: 5, category: "veg" },
+    { name: "Pongal (1 bowl)", calories: 220, protein: 6, carbs: 34, fat: 7, category: "veg" },
+    { name: "Paratha (1 aloo)", calories: 210, protein: 5, carbs: 28, fat: 9, category: "veg" },
+    { name: "Poori (2 pcs)", calories: 200, protein: 4, carbs: 24, fat: 10, category: "veg" },
+    { name: "Sambar (1 bowl)", calories: 120, protein: 6, carbs: 18, fat: 3, category: "veg" },
+    { name: "Coconut Chutney", calories: 60, protein: 1, carbs: 4, fat: 5, category: "veg" },
+    { name: "Milk (1 glass)", calories: 120, protein: 6, carbs: 10, fat: 5, category: "veg" },
+    { name: "Curd / Yogurt (1 bowl)", calories: 100, protein: 5, carbs: 8, fat: 4, category: "veg" },
+    { name: "Boiled Eggs (2)", calories: 140, protein: 12, carbs: 1, fat: 10, category: "nonveg" },
+    { name: "Egg Omelette (2 eggs)", calories: 180, protein: 14, carbs: 2, fat: 13, category: "nonveg" },
+    { name: "Paneer Paratha (1)", calories: 280, protein: 10, carbs: 30, fat: 14, category: "veg" },
+    { name: "Sprouts Salad (1 bowl)", calories: 130, protein: 8, carbs: 18, fat: 2, category: "veg" },
+    { name: "Banana (1)", calories: 100, protein: 1, carbs: 26, fat: 0.4, category: "veg" },
+    { name: "Oats Porridge (1 bowl)", calories: 160, protein: 6, carbs: 28, fat: 3, category: "veg" },
+    { name: "Protein Shake", calories: 200, protein: 25, carbs: 12, fat: 5, category: "veg" },
+    { name: "Ragi Dosa", calories: 140, protein: 4, carbs: 22, fat: 4, category: "veg" },
+  ],
+
+  lunch: [
+    { name: "Rice (1 cup cooked)", calories: 200, protein: 4, carbs: 44, fat: 0.4, category: "veg" },
+    { name: "Brown Rice (1 cup)", calories: 215, protein: 5, carbs: 45, fat: 1.8, category: "veg" },
+    { name: "Dal Fry (1 bowl)", calories: 180, protein: 12, carbs: 24, fat: 5, category: "veg" },
+    { name: "Sambar (1 bowl)", calories: 120, protein: 6, carbs: 18, fat: 3, category: "veg" },
+    { name: "Rasam (1 bowl)", calories: 60, protein: 2, carbs: 10, fat: 1, category: "veg" },
+    { name: "Chapati (2 pcs)", calories: 200, protein: 6, carbs: 34, fat: 4, category: "veg" },
+    { name: "Veg Curry (1 bowl)", calories: 150, protein: 4, carbs: 14, fat: 8, category: "veg" },
+    { name: "Paneer Butter Masala", calories: 350, protein: 16, carbs: 14, fat: 26, category: "veg" },
+    { name: "Chicken Curry (1 bowl)", calories: 280, protein: 28, carbs: 8, fat: 16, category: "nonveg" },
+    { name: "Fish Curry (1 bowl)", calories: 220, protein: 24, carbs: 6, fat: 12, category: "nonveg" },
+    { name: "Egg Curry (2 eggs)", calories: 240, protein: 16, carbs: 8, fat: 16, category: "nonveg" },
+    { name: "Curd Rice (1 plate)", calories: 250, protein: 8, carbs: 38, fat: 6, category: "veg" },
+    { name: "Mixed Veg Sabzi", calories: 130, protein: 4, carbs: 12, fat: 7, category: "veg" },
+    { name: "Palak Paneer", calories: 300, protein: 14, carbs: 10, fat: 22, category: "veg" },
+    { name: "Rajma (1 bowl)", calories: 210, protein: 12, carbs: 30, fat: 4, category: "veg" },
+    { name: "Chole (1 bowl)", calories: 220, protein: 10, carbs: 28, fat: 8, category: "veg" },
+    { name: "Biryani (Veg, 1 plate)", calories: 350, protein: 8, carbs: 52, fat: 12, category: "veg" },
+    { name: "Chicken Biryani (1 plate)", calories: 450, protein: 22, carbs: 50, fat: 18, category: "nonveg" },
+    { name: "Grilled Chicken Breast", calories: 200, protein: 32, carbs: 0, fat: 8, category: "nonveg" },
+    { name: "Buttermilk (1 glass)", calories: 40, protein: 2, carbs: 4, fat: 1, category: "veg" },
+  ],
+
+  snacks: [
+    { name: "Peanuts (30g)", calories: 170, protein: 7, carbs: 5, fat: 14, category: "veg" },
+    { name: "Almonds (10 pcs)", calories: 70, protein: 3, carbs: 2, fat: 6, category: "veg" },
+    { name: "Mixed Dry Fruits (30g)", calories: 160, protein: 4, carbs: 14, fat: 10, category: "veg" },
+    { name: "Green Tea", calories: 5, protein: 0, carbs: 1, fat: 0, category: "veg" },
+    { name: "Fruit Salad (1 bowl)", calories: 100, protein: 1, carbs: 24, fat: 0.5, category: "veg" },
+    { name: "Sprouts Chaat", calories: 150, protein: 8, carbs: 20, fat: 4, category: "veg" },
+    { name: "Makhana (roasted, 30g)", calories: 100, protein: 3, carbs: 18, fat: 1, category: "veg" },
+    { name: "Protein Bar", calories: 200, protein: 20, carbs: 22, fat: 8, category: "veg" },
+    { name: "Paneer Tikka (4 pcs)", calories: 200, protein: 14, carbs: 6, fat: 14, category: "veg" },
+    { name: "Egg Whites (3)", calories: 50, protein: 11, carbs: 1, fat: 0, category: "nonveg" },
+    { name: "Chicken Tikka (4 pcs)", calories: 180, protein: 24, carbs: 4, fat: 8, category: "nonveg" },
+    { name: "Whey Protein Shake", calories: 130, protein: 24, carbs: 4, fat: 2, category: "veg" },
+  ],
+
+  dinner: [
+    { name: "Chapati (2 pcs)", calories: 200, protein: 6, carbs: 34, fat: 4, category: "veg" },
+    { name: "Jowar Roti (2 pcs)", calories: 180, protein: 6, carbs: 36, fat: 2, category: "veg" },
+    { name: "Dal Tadka (1 bowl)", calories: 180, protein: 12, carbs: 24, fat: 5, category: "veg" },
+    { name: "Mixed Veg Curry", calories: 140, protein: 4, carbs: 14, fat: 7, category: "veg" },
+    { name: "Palak Dal", calories: 160, protein: 10, carbs: 20, fat: 4, category: "veg" },
+    { name: "Chicken Curry (1 bowl)", calories: 280, protein: 28, carbs: 8, fat: 16, category: "nonveg" },
+    { name: "Grilled Fish", calories: 180, protein: 26, carbs: 0, fat: 8, category: "nonveg" },
+    { name: "Egg Bhurji (2 eggs)", calories: 180, protein: 14, carbs: 4, fat: 12, category: "nonveg" },
+    { name: "Salad (mixed)", calories: 50, protein: 2, carbs: 8, fat: 1, category: "veg" },
+    { name: "Soup (Veg, 1 bowl)", calories: 80, protein: 3, carbs: 12, fat: 2, category: "veg" },
+    { name: "Chicken Soup (1 bowl)", calories: 120, protein: 12, carbs: 8, fat: 4, category: "nonveg" },
+    { name: "Paneer Tikka Masala", calories: 320, protein: 16, carbs: 12, fat: 24, category: "veg" },
+    { name: "Tandoori Chicken (2 pcs)", calories: 260, protein: 30, carbs: 4, fat: 14, category: "nonveg" },
+    { name: "Curd (1 bowl)", calories: 100, protein: 5, carbs: 8, fat: 4, category: "veg" },
+    { name: "Rice (1/2 cup)", calories: 100, protein: 2, carbs: 22, fat: 0.2, category: "veg" },
+    { name: "Quinoa (1 cup)", calories: 220, protein: 8, carbs: 40, fat: 4, category: "veg" },
+  ],
+};
+
+module.exports = indianFoods;

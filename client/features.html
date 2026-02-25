@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NutriTech - Features</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="index.html" class="nav-logo">
+          <i class="fas fa-leaf"></i>
+          <span>NutriTech</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="calculator.html">Calculator</a></li>
+          <li><a href="modes.html">Modes</a></li>
+          <li><a href="features.html">Features</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </div>
+      <button class="chatbot-toggle" id="chatbot-toggle" title="AI Dietitian">
+        <i class="fas fa-comment-dots"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- FEATURES SECTION -->
+  <section id="features" class="features-section page-top">
+    <div class="section-header">
+      <h2>Why <span class="gradient-text">NutriTech</span>?</h2>
+      <p>Built for Indian professionals & fitness enthusiasts</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+        <h3>AI Energy Score</h3>
+        <p>Daily energy optimization score out of 100. Track sleep, steps, water & workout impact on your energy.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-shield-heart"></i></div>
+        <h3>Health Risk Predictor</h3>
+        <p>AI-powered risk assessment for diabetes, hypertension, obesity & heart disease based on your lifestyle.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-camera"></i></div>
+        <h3>AI Meal Scanner</h3>
+        <p>Describe your meal and get instant calorie & macro breakdown. Supports 15+ Indian dishes.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-map-location-dot"></i></div>
+        <h3>Regional Indian Mode</h3>
+        <p>Tamil Nadu, Kerala, North India, Karnataka & Telangana — meals from your state, your culture.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-cart-shopping"></i></div>
+        <h3>Smart Grocery List</h3>
+        <p>Auto-generated grocery list with INR prices. Ready for BigBasket, Zepto, or DMart.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-fire-flame-curved"></i></div>
+        <h3>Streak & Rewards</h3>
+        <p>Gamified nutrition tracking with 12 achievements, 10 levels & leaderboards. Stay consistent.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-gauge-high"></i></div>
+        <h3>Performance Modes</h3>
+        <p>Focus, Energy, Muscle, Fat Loss — 4 modes that auto-adjust your entire nutrition plan.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-comment-dots"></i></div>
+        <h3>AI Dietitian Chatbot</h3>
+        <p>Ask nutrition questions in natural language. Get instant advice with suggested Indian foods.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <i class="fas fa-leaf"></i> NutriTech
+      </div>
+      <p>&copy; 2026 NutriTech. All rights reserved.</p>
+      <p>Your Personal Nutrition Guide</p>
+    </div>
+  </footer>
+
+  <!-- AI CHATBOT MODAL -->
+  <div class="chatbot-panel hidden" id="chatbot-panel">
+    <div class="chatbot-header">
+      <div class="chatbot-title">
+        <i class="fas fa-robot"></i>
+        <span>NutriBot — AI Dietitian</span>
+      </div>
+      <button class="chatbot-close" id="chatbot-close">&times;</button>
+    </div>
+    <div class="chatbot-messages" id="chatbot-messages">
+      <div class="chat-message bot-message">
+        <div class="chat-avatar"><i class="fas fa-robot"></i></div>
+        <div class="chat-text">
+          Hi! I'm NutriBot 🥗 Ask me about nutrition, energy, muscle building, weight loss, digestion — anything food-related!
+        </div>
+      </div>
+    </div>
+    <div class="chatbot-input-area">
+      <input type="text" id="chatbot-input" placeholder="Ask me about nutrition..." />
+      <button class="chatbot-send" id="chatbot-send">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay hidden">
+    <div class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Loading...</p>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="common.js"></script>
+</body>
+</html>
