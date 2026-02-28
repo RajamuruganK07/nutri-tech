@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NutriTech - Admin Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    .admin {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6rem 2rem 3rem;
+    }
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .admin-header h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+    }
+    .admin-badge {
+      background: linear-gradient(135deg, #ef4444, #f59e0b);
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .logout-btn {
+      background: rgba(220,38,38,0.2);
+      color: #f87171;
+      border: 1px solid rgba(220,38,38,0.3);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      font-family: inherit;
+      transition: all 0.3s;
+    }
+    .logout-btn:hover { background: rgba(220,38,38,0.4); }
+
+    /* Overview Stats */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .overview-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .overview-card .ov-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .overview-card .ov-value {
+      font-size: 2.2rem;
+      font-weight: 800;
+    }
+    .overview-card .ov-label {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      margin-top: 0.3rem;
+    }
+
+    /* Alerts */
+    .alerts-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .alerts-section h2 {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .alert-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      border: 1px solid rgba(239,68,68,0.3);
+      background: rgba(239,68,68,0.05);
+      border-radius: var(--radius-sm);
+      margin-bottom: 0.8rem;
+    }
+    .alert-item .alert-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .alert-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(239,68,68,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ef4444;
+      font-size: 1.1rem;
+    }
+    .alert-info .alert-name {
+      font-weight: 600;
+    }
+    .alert-info .alert-msg {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+    .alert-score {
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: #ef4444;
+    }
+
+    /* Users Table */
+    .users-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      overflow-x: auto;
+    }
+    .users-section h2 {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+    .users-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .users-table th {
+      text-align: left;
+      padding: 0.8rem;
+      border-bottom: 2px solid var(--border);
+      color: var(--text-secondary);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .users-table td {
+      padding: 0.8rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .badge {
+      padding: 0.25rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .badge-excellent { background: rgba(16,185,129,0.2); color: #10b981; }
+    .badge-good { background: rgba(52,211,153,0.2); color: #34d399; }
+    .badge-average { background: rgba(245,158,11,0.2); color: #f59e0b; }
+    .badge-poor { background: rgba(249,115,22,0.2); color: #f97316; }
+    .badge-critical { background: rgba(239,68,68,0.2); color: #ef4444; }
+    .badge-none { background: rgba(100,116,139,0.2); color: #94a3b8; }
+    .empty-state {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-secondary);
+    }
+
+    /* User Detail Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-content {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      width: 100%;
+      max-width: 700px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .modal-header h2 { font-size: 1.3rem; }
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .detail-item {
+      padding: 0.8rem;
+      background: var(--bg-dark);
+      border-radius: var(--radius-sm);
+    }
+    .detail-item .dl {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      margin-bottom: 0.2rem;
+    }
+    .detail-item .dv {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    /* Compliance report section */
+    .report-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .report-section h2 {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+    .report-bar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.8rem;
+    }
+    .report-bar .rb-name {
+      width: 120px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .report-bar .rb-track {
+      flex: 1;
+      height: 24px;
+      background: var(--bg-dark);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .report-bar .rb-fill {
+      height: 100%;
+      border-radius: 12px;
+      transition: width 0.5s;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: white;
+      min-width: 40px;
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="index.html" class="nav-logo">
+          <i class="fas fa-leaf"></i>
+          <span>NutriTech</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="admin.html" class="active">Admin</a></li>
+          <li><a href="calculator.html">Calculator</a></li>
+        </ul>
+      </div>
+      <div style="display:flex;align-items:center;gap:0.8rem;">
+        <span class="admin-badge"><i class="fas fa-shield-alt"></i> ADMIN</span>
+        <button class="logout-btn" onclick="NutriAuth.logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="admin">
+    <!-- Header -->
+    <div class="admin-header">
+      <div>
+        <h1><i class="fas fa-user-shield" style="color:#f59e0b;"></i> Admin Dashboard</h1>
+        <p style="color:var(--text-secondary);margin-top:0.3rem;" id="admin-date"></p>
+      </div>
+    </div>
+
+    <!-- Overview Stats -->
+    <div class="overview-grid" id="overview-grid">
+      <div class="overview-card">
+        <div class="ov-icon" style="color:#3b82f6;"><i class="fas fa-users"></i></div>
+        <div class="ov-value" id="ov-total-users">--</div>
+        <div class="ov-label">Total Users</div>
+      </div>
+      <div class="overview-card">
+        <div class="ov-icon" style="color:#10b981;"><i class="fas fa-clipboard-check"></i></div>
+        <div class="ov-value" id="ov-today-logs">--</div>
+        <div class="ov-label">Logs Today</div>
+      </div>
+      <div class="overview-card">
+        <div class="ov-icon" style="color:#f59e0b;"><i class="fas fa-bullseye"></i></div>
+        <div class="ov-value" id="ov-avg-compliance">--</div>
+        <div class="ov-label">Today's Avg Compliance</div>
+      </div>
+      <div class="overview-card">
+        <div class="ov-icon" style="color:#ef4444;"><i class="fas fa-exclamation-triangle"></i></div>
+        <div class="ov-value" id="ov-alerts">--</div>
+        <div class="ov-label">Active Alerts</div>
+      </div>
+    </div>
+
+    <!-- Alerts -->
+    <div class="alerts-section" id="alerts-section">
+      <h2><i class="fas fa-bell" style="color:#ef4444;"></i> Compliance Alerts</h2>
+      <div id="alerts-container">
+        <div class="empty-state">No alerts — all users are on track!</div>
+      </div>
+    </div>
+
+    <!-- Compliance Report Bars -->
+    <div class="report-section">
+      <h2><i class="fas fa-chart-bar" style="color:var(--primary);"></i> User Compliance Overview (7 Days)</h2>
+      <div id="report-bars">
+        <div class="empty-state">Loading...</div>
+      </div>
+    </div>
+
+    <!-- All Users Table -->
+    <div class="users-section">
+      <h2><i class="fas fa-list" style="color:var(--primary);"></i> All Users</h2>
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Goal</th>
+            <th>Rec. Calories</th>
+            <th>7-Day Avg</th>
+            <th>Latest Status</th>
+            <th>Logs</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="users-body">
+          <tr><td colspan="8" class="empty-state">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- User Detail Modal -->
+  <div class="modal-overlay" id="user-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-title">User Details</h2>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay hidden">
+    <div class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Loading...</p>
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+  <script>
+    const API_BASE = window.location.origin + "/api";
+
+    // Auth check
+    if (!NutriAuth.isLoggedIn()) {
+      window.location.href = "login.html";
+    }
+    // Admin check
+    if (!NutriAuth.isAdmin()) {
+      window.location.href = "dashboard.html";
+    }
+
+    document.getElementById("admin-date").textContent = new Date().toLocaleDateString("en-IN", {
+      weekday: "long", year: "numeric", month: "long", day: "numeric"
+    });
+
+    loadAdminDashboard();
+
+    async function loadAdminDashboard() {
+      try {
+        showLoading(true);
+
+        const [dashRes, usersRes, reportRes] = await Promise.all([
+          fetch(`${API_BASE}/admin/dashboard`, { headers: NutriAuth.authHeader() }),
+          fetch(`${API_BASE}/admin/users`, { headers: NutriAuth.authHeader() }),
+          fetch(`${API_BASE}/admin/compliance-report?days=7`, { headers: NutriAuth.authHeader() }),
+        ]);
+
+        const dash = await dashRes.json();
+        const users = await usersRes.json();
+        const report = await reportRes.json();
+
+        if (dash.success) renderOverview(dash.dashboard);
+        if (users.success) renderUsersTable(users.users);
+        if (report.success) renderReportBars(report.report);
+
+      } catch (err) {
+        console.error("Admin load error:", err);
+        showToast("Failed to load admin dashboard", "error");
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    function renderOverview(data) {
+      document.getElementById("ov-total-users").textContent = data.totalUsers;
+      document.getElementById("ov-today-logs").textContent = data.todayLogsCount;
+      document.getElementById("ov-avg-compliance").textContent = data.todayAvgCompliance ? data.todayAvgCompliance + "%" : "N/A";
+      document.getElementById("ov-alerts").textContent = data.alerts.length;
+
+      // Render alerts
+      const container = document.getElementById("alerts-container");
+      if (data.alerts.length === 0) {
+        container.innerHTML = '<div class="empty-state"><i class="fas fa-check-circle" style="color:#10b981;font-size:1.5rem;"></i><br>All users on track!</div>';
+        return;
+      }
+
+      container.innerHTML = data.alerts.map(alert => `
+        <div class="alert-item">
+          <div class="alert-left">
+            <div class="alert-icon"><i class="fas fa-exclamation"></i></div>
+            <div class="alert-info">
+              <div class="alert-name">${alert.name}</div>
+              <div class="alert-msg">${alert.message} (${alert.daysTracked} days tracked)</div>
+            </div>
+          </div>
+          <div class="alert-score">${alert.avgCompliance}%</div>
+        </div>
+      `).join("");
+    }
+
+    function renderUsersTable(users) {
+      const tbody = document.getElementById("users-body");
+      if (!users || users.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="empty-state">No users registered yet</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = users.map(u => {
+        const status = u.latestLog ? u.latestLog.status : "none";
+        const goalText = (u.goal || "N/A").replace(/_/g, " ");
+        return `
+          <tr>
+            <td><strong>${u.name}</strong></td>
+            <td style="color:var(--text-secondary)">${u.email}</td>
+            <td>${goalText}</td>
+            <td>${u.recommendedCalories || "--"}</td>
+            <td><strong>${u.weeklyAvgCompliance ? u.weeklyAvgCompliance + "%" : "N/A"}</strong></td>
+            <td><span class="badge badge-${status}">${status}</span></td>
+            <td>${u.totalLogs}</td>
+            <td><button class="btn btn-sm btn-outline" onclick="viewUser('${u._id}')"><i class="fas fa-eye"></i> View</button></td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function renderReportBars(report) {
+      const container = document.getElementById("report-bars");
+      if (!report || report.length === 0) {
+        container.innerHTML = '<div class="empty-state">No data</div>';
+        return;
+      }
+
+      container.innerHTML = report.map(r => {
+        const pct = Math.min(r.avgCompliance, 120);
+        let color = "#64748b";
+        if (r.avgCompliance >= 90 && r.avgCompliance <= 110) color = "#10b981";
+        else if (r.avgCompliance >= 80) color = "#34d399";
+        else if (r.avgCompliance >= 70) color = "#f59e0b";
+        else if (r.avgCompliance >= 60) color = "#f97316";
+        else if (r.avgCompliance > 0) color = "#ef4444";
+
+        return `
+          <div class="report-bar">
+            <div class="rb-name">${r.name}</div>
+            <div class="rb-track">
+              <div class="rb-fill" style="width:${Math.min(pct, 100)}%;background:${color};">
+                ${r.avgCompliance > 0 ? r.avgCompliance + "%" : "N/A"}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    async function viewUser(userId) {
+      try {
+        showLoading(true);
+        const res = await fetch(`${API_BASE}/admin/user/${userId}`, { headers: NutriAuth.authHeader() });
+        const data = await res.json();
+
+        if (!data.success) throw new Error("Failed");
+
+        const u = data.user;
+        document.getElementById("modal-title").textContent = u.name;
+
+        let logsHtml = "";
+        if (data.logs && data.logs.length > 0) {
+          logsHtml = `
+            <h3 style="margin:1rem 0 0.5rem;">Recent Logs</h3>
+            <table class="users-table" style="font-size:0.85rem;">
+              <thead><tr><th>Date</th><th>Calories</th><th>Protein</th><th>Compliance</th><th>Status</th></tr></thead>
+              <tbody>
+                ${data.logs.map(l => `
+                  <tr>
+                    <td>${l.date}</td>
+                    <td>${l.caloriesConsumed}</td>
+                    <td>${l.proteinConsumed}g</td>
+                    <td><strong>${l.overallCompliance}%</strong></td>
+                    <td><span class="badge badge-${l.status}">${l.status}</span></td>
+                  </tr>
+                `).join("")}
+              </tbody>
+            </table>
+          `;
+        } else {
+          logsHtml = '<div class="empty-state">No logs yet</div>';
+        }
+
+        document.getElementById("modal-body").innerHTML = `
+          <div class="detail-grid">
+            <div class="detail-item"><div class="dl">Email</div><div class="dv">${u.email}</div></div>
+            <div class="detail-item"><div class="dl">Goal</div><div class="dv">${(u.goal || "N/A").replace(/_/g, " ")}</div></div>
+            <div class="detail-item"><div class="dl">Weight</div><div class="dv">${u.weight || "--"} kg</div></div>
+            <div class="detail-item"><div class="dl">Height</div><div class="dv">${u.height || "--"} cm</div></div>
+            <div class="detail-item"><div class="dl">Rec. Calories</div><div class="dv">${u.recommendedCalories || "--"}</div></div>
+            <div class="detail-item"><div class="dl">Avg Compliance</div><div class="dv">${data.avgCompliance || 0}%</div></div>
+          </div>
+          ${logsHtml}
+        `;
+
+        document.getElementById("user-modal").classList.add("active");
+      } catch (err) {
+        showToast("Failed to load user details", "error");
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    function closeModal() {
+      document.getElementById("user-modal").classList.remove("active");
+    }
+
+    // Click outside modal to close
+    document.getElementById("user-modal").addEventListener("click", function (e) {
+      if (e.target === this) closeModal();
+    });
+
+    function showLoading(show) {
+      const o = document.getElementById("loading-overlay");
+      if (show) o.classList.remove("hidden");
+      else o.classList.add("hidden");
+    }
+
+    function showToast(message, type = "info") {
+      const existing = document.querySelector(".toast-msg");
+      if (existing) existing.remove();
+      const t = document.createElement("div");
+      t.className = "toast-msg";
+      Object.assign(t.style, {
+        position: "fixed", bottom: "2rem", right: "2rem",
+        background: type === "success" ? "#059669" : type === "error" ? "#dc2626" : "#2563eb",
+        color: "white", padding: "0.8rem 1.5rem", borderRadius: "8px",
+        fontSize: "0.9rem", fontWeight: "500", zIndex: "10000",
+        boxShadow: "0 4px 20px rgba(0,0,0,0.3)", fontFamily: "Inter, sans-serif",
+      });
+      t.textContent = message;
+      document.body.appendChild(t);
+      setTimeout(() => { t.style.opacity = "0"; t.style.transition = "opacity 0.3s"; setTimeout(() => t.remove(), 300); }, 3000);
+    }
+  </script>
+</body>
+</html>

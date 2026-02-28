@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NutriTech - Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    .dashboard {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6rem 2rem 3rem;
+    }
+    .dash-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .dash-header h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+    }
+    .dash-header .user-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      background: var(--gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .logout-btn {
+      background: rgba(220,38,38,0.2);
+      color: #f87171;
+      border: 1px solid rgba(220,38,38,0.3);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      font-family: inherit;
+      transition: all 0.3s;
+    }
+    .logout-btn:hover {
+      background: rgba(220,38,38,0.4);
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .stat-card .stat-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .stat-card .stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.3rem;
+    }
+    .stat-card .stat-label {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+    .stat-card.calories .stat-icon { color: #f59e0b; }
+    .stat-card.protein .stat-icon { color: #ef4444; }
+    .stat-card.carbs .stat-icon { color: #3b82f6; }
+    .stat-card.fat .stat-icon { color: #a855f7; }
+    .stat-card.compliance .stat-icon { color: #10b981; }
+
+    /* Compliance Gauge */
+    .compliance-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .compliance-section h2 {
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+    }
+    .compliance-gauge {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      margin: 0 auto 1rem;
+    }
+    .gauge-circle {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      font-weight: 800;
+      position: relative;
+    }
+    .gauge-circle::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border-radius: 50%;
+      background: var(--bg-card);
+    }
+    .gauge-circle span {
+      position: relative;
+      z-index: 1;
+    }
+    .compliance-status {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-top: 0.5rem;
+      text-transform: uppercase;
+    }
+    .status-excellent { color: #10b981; }
+    .status-good { color: #34d399; }
+    .status-average { color: #f59e0b; }
+    .status-poor { color: #f97316; }
+    .status-critical { color: #ef4444; }
+
+    /* Log Form */
+    .log-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    @media (max-width: 768px) {
+      .log-section { grid-template-columns: 1fr; }
+    }
+    .log-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+    }
+    .log-card h2 {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    /* Recommended Card */
+    .recommended-list {
+      list-style: none;
+    }
+    .recommended-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+    .recommended-list li:last-child {
+      border-bottom: none;
+    }
+    .recommended-list .label {
+      color: var(--text-secondary);
+    }
+    .recommended-list .value {
+      font-weight: 700;
+    }
+
+    /* History Table */
+    .history-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      overflow-x: auto;
+    }
+    .history-section h2 {
+      margin-bottom: 1.5rem;
+      font-size: 1.2rem;
+    }
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .history-table th {
+      text-align: left;
+      padding: 0.8rem;
+      border-bottom: 2px solid var(--border);
+      color: var(--text-secondary);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .history-table td {
+      padding: 0.8rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .badge {
+      padding: 0.25rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .badge-excellent { background: rgba(16,185,129,0.2); color: #10b981; }
+    .badge-good { background: rgba(52,211,153,0.2); color: #34d399; }
+    .badge-average { background: rgba(245,158,11,0.2); color: #f59e0b; }
+    .badge-poor { background: rgba(249,115,22,0.2); color: #f97316; }
+    .badge-critical { background: rgba(239,68,68,0.2); color: #ef4444; }
+    .empty-state {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-secondary);
+    }
+
+    /* Weekly Chart (simple CSS bars) */
+    .weekly-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 0.5rem;
+      height: 150px;
+      padding: 1rem 0;
+    }
+    .chart-bar-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+      height: 100%;
+      justify-content: flex-end;
+    }
+    .chart-bar {
+      width: 100%;
+      max-width: 40px;
+      border-radius: 4px 4px 0 0;
+      transition: height 0.5s ease;
+      min-height: 4px;
+    }
+    .chart-bar-label {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+    }
+    .chart-bar-value {
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="index.html" class="nav-logo">
+          <i class="fas fa-leaf"></i>
+          <span>NutriTech</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="dashboard.html" class="active">Dashboard</a></li>
+          <li><a href="calculator.html">Calculator</a></li>
+          <li><a href="features.html">Features</a></li>
+        </ul>
+      </div>
+      <div style="display:flex;align-items:center;gap:0.8rem;">
+        <span id="nav-user-name" style="color:var(--text-secondary);font-size:0.9rem;"></span>
+        <button class="logout-btn" onclick="NutriAuth.logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="dashboard">
+    <!-- Header -->
+    <div class="dash-header">
+      <div>
+        <h1><i class="fas fa-chart-line" style="color:var(--primary)"></i> <span id="greeting">Dashboard</span></h1>
+        <p style="color:var(--text-secondary);margin-top:0.3rem;" id="dash-date"></p>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card calories">
+        <div class="stat-icon"><i class="fas fa-fire"></i></div>
+        <div class="stat-value" id="stat-calories">--</div>
+        <div class="stat-label">Recommended Calories</div>
+      </div>
+      <div class="stat-card protein">
+        <div class="stat-icon"><i class="fas fa-drumstick-bite"></i></div>
+        <div class="stat-value" id="stat-protein">--</div>
+        <div class="stat-label">Protein (g)</div>
+      </div>
+      <div class="stat-card carbs">
+        <div class="stat-icon"><i class="fas fa-bread-slice"></i></div>
+        <div class="stat-value" id="stat-carbs">--</div>
+        <div class="stat-label">Carbs (g)</div>
+      </div>
+      <div class="stat-card fat">
+        <div class="stat-icon"><i class="fas fa-cheese"></i></div>
+        <div class="stat-value" id="stat-fat">--</div>
+        <div class="stat-label">Fat (g)</div>
+      </div>
+      <div class="stat-card compliance">
+        <div class="stat-icon"><i class="fas fa-bullseye"></i></div>
+        <div class="stat-value" id="stat-compliance">--</div>
+        <div class="stat-label">Today's Compliance</div>
+      </div>
+    </div>
+
+    <!-- Compliance Gauge + Weekly Chart -->
+    <div class="log-section">
+      <div class="compliance-section">
+        <h2><i class="fas fa-tachometer-alt"></i> Compliance Score</h2>
+        <div class="compliance-gauge">
+          <div class="gauge-circle" id="gauge-circle">
+            <span id="gauge-value">--%</span>
+          </div>
+        </div>
+        <div class="compliance-status" id="compliance-status">No data yet</div>
+        <p style="color:var(--text-secondary);margin-top:0.8rem;font-size:0.85rem;">
+          Target: 90-110% = Excellent
+        </p>
+      </div>
+
+      <div class="compliance-section">
+        <h2><i class="fas fa-chart-bar"></i> Weekly Progress</h2>
+        <div class="weekly-chart" id="weekly-chart">
+          <div class="empty-state">Upload daily logs to see your weekly progress</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload Log + Recommended -->
+    <div class="log-section">
+      <!-- Upload Form -->
+      <div class="log-card">
+        <h2><i class="fas fa-upload" style="color:var(--primary)"></i> Upload Today's Food Log</h2>
+        <form id="log-form" onsubmit="handleLogUpload(event)">
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" id="log-date" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Calories Consumed</label>
+              <input type="number" id="log-calories" placeholder="e.g. 2100" min="0" required />
+            </div>
+            <div class="form-group">
+              <label>Protein (g)</label>
+              <input type="number" id="log-protein" placeholder="e.g. 120" min="0" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Carbs (g)</label>
+              <input type="number" id="log-carbs" placeholder="e.g. 250" min="0" required />
+            </div>
+            <div class="form-group">
+              <label>Fat (g)</label>
+              <input type="number" id="log-fat" placeholder="e.g. 60" min="0" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Notes (optional)</label>
+            <textarea id="log-notes" rows="2" placeholder="What did you eat today?"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;">
+            <i class="fas fa-save"></i> Save Daily Log
+          </button>
+        </form>
+      </div>
+
+      <!-- Recommended -->
+      <div class="log-card">
+        <h2><i class="fas fa-clipboard-list" style="color:var(--accent)"></i> Your Recommended Plan</h2>
+        <ul class="recommended-list" id="recommended-list">
+          <li><span class="label">Loading...</span></li>
+        </ul>
+        <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border);">
+          <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:0.5rem;">
+            <i class="fas fa-info-circle"></i> Your plan is calculated based on your profile
+          </p>
+          <a href="login.html" class="btn btn-outline btn-sm" onclick="NutriAuth.isLoggedIn() || event.preventDefault()">
+            <i class="fas fa-user-edit"></i> Update Profile
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div class="history-section">
+      <h2><i class="fas fa-history" style="color:var(--primary)"></i> Recent History (Last 30 Days)</h2>
+      <table class="history-table" id="history-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Calories</th>
+            <th>Protein</th>
+            <th>Carbs</th>
+            <th>Fat</th>
+            <th>Compliance</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="history-body">
+          <tr><td colspan="7" class="empty-state">No logs yet. Start uploading your daily food data!</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay hidden">
+    <div class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Loading...</p>
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+  <script>
+    const API_BASE = window.location.origin + "/api";
+
+    // Redirect if not logged in
+    if (!NutriAuth.isLoggedIn()) {
+      window.location.href = "login.html";
+    }
+
+    // Init
+    const user = NutriAuth.getUser();
+    if (user) {
+      document.getElementById("nav-user-name").textContent = user.name;
+      const hour = new Date().getHours();
+      const greet = hour < 12 ? "Good Morning" : hour < 17 ? "Good Afternoon" : "Good Evening";
+      document.getElementById("greeting").textContent = `${greet}, ${user.name.split(" ")[0]}!`;
+    }
+
+    document.getElementById("dash-date").textContent = new Date().toLocaleDateString("en-IN", {
+      weekday: "long", year: "numeric", month: "long", day: "numeric"
+    });
+
+    // Set default date to today
+    document.getElementById("log-date").value = new Date().toISOString().split("T")[0];
+
+    // Load dashboard data
+    loadDashboard();
+
+    async function loadDashboard() {
+      try {
+        showLoading(true);
+
+        // Load user profile, today's log, and history in parallel
+        const [profileRes, todayRes, historyRes, weeklyRes] = await Promise.all([
+          fetch(`${API_BASE}/auth/me`, { headers: NutriAuth.authHeader() }),
+          fetch(`${API_BASE}/logs/today`, { headers: NutriAuth.authHeader() }),
+          fetch(`${API_BASE}/logs/history?days=30`, { headers: NutriAuth.authHeader() }),
+          fetch(`${API_BASE}/logs/weekly`, { headers: NutriAuth.authHeader() }),
+        ]);
+
+        const profile = await profileRes.json();
+        const today = await todayRes.json();
+        const history = await historyRes.json();
+        const weekly = await weeklyRes.json();
+
+        if (profile.success) renderStats(profile.user);
+        if (today.success) renderTodayCompliance(today);
+        if (history.success) renderHistory(history);
+        if (weekly.success) renderWeeklyChart(weekly.logs);
+
+      } catch (err) {
+        console.error("Dashboard load error:", err);
+        showToast("Failed to load dashboard", "error");
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    function renderStats(user) {
+      document.getElementById("stat-calories").textContent = user.recommendedCalories || "--";
+      document.getElementById("stat-protein").textContent = user.recommendedProtein ? user.recommendedProtein + "g" : "--";
+      document.getElementById("stat-carbs").textContent = user.recommendedCarbs ? user.recommendedCarbs + "g" : "--";
+      document.getElementById("stat-fat").textContent = user.recommendedFat ? user.recommendedFat + "g" : "--";
+
+      // Render recommended list
+      const list = document.getElementById("recommended-list");
+      list.innerHTML = `
+        <li><span class="label">Daily Calories</span><span class="value">${user.recommendedCalories || 0} kcal</span></li>
+        <li><span class="label">Protein</span><span class="value">${user.recommendedProtein || 0}g</span></li>
+        <li><span class="label">Carbohydrates</span><span class="value">${user.recommendedCarbs || 0}g</span></li>
+        <li><span class="label">Fat</span><span class="value">${user.recommendedFat || 0}g</span></li>
+        <li><span class="label">Goal</span><span class="value">${(user.goal || "").replace(/_/g, " ").toUpperCase()}</span></li>
+        <li><span class="label">Weight</span><span class="value">${user.weight || "--"} kg</span></li>
+        <li><span class="label">Height</span><span class="value">${user.height || "--"} cm</span></li>
+      `;
+    }
+
+    function renderTodayCompliance(data) {
+      const log = data.log;
+      if (!log) {
+        document.getElementById("stat-compliance").textContent = "--";
+        return;
+      }
+
+      const score = log.overallCompliance;
+      document.getElementById("stat-compliance").textContent = score + "%";
+      document.getElementById("gauge-value").textContent = score + "%";
+
+      // Color the gauge
+      const gauge = document.getElementById("gauge-circle");
+      let color = "#64748b";
+      if (score >= 90 && score <= 110) color = "#10b981";
+      else if (score >= 80) color = "#34d399";
+      else if (score >= 70) color = "#f59e0b";
+      else if (score >= 60) color = "#f97316";
+      else color = "#ef4444";
+
+      gauge.style.background = `conic-gradient(${color} ${Math.min(score, 100) * 3.6}deg, var(--border) 0deg)`;
+
+      const statusEl = document.getElementById("compliance-status");
+      statusEl.textContent = log.status.toUpperCase();
+      statusEl.className = `compliance-status status-${log.status}`;
+    }
+
+    function renderWeeklyChart(logs) {
+      const container = document.getElementById("weekly-chart");
+      if (!logs || logs.length === 0) {
+        container.innerHTML = '<div class="empty-state">No weekly data yet</div>';
+        return;
+      }
+
+      container.innerHTML = "";
+      const maxScore = 120;
+
+      logs.forEach((log) => {
+        const pct = Math.min((log.overallCompliance / maxScore) * 100, 100);
+        let color = "#64748b";
+        if (log.overallCompliance >= 90 && log.overallCompliance <= 110) color = "#10b981";
+        else if (log.overallCompliance >= 80) color = "#34d399";
+        else if (log.overallCompliance >= 70) color = "#f59e0b";
+        else if (log.overallCompliance >= 60) color = "#f97316";
+        else color = "#ef4444";
+
+        const dayName = new Date(log.date + "T00:00:00").toLocaleDateString("en", { weekday: "short" });
+
+        container.innerHTML += `
+          <div class="chart-bar-wrap">
+            <div class="chart-bar-value">${log.overallCompliance}%</div>
+            <div class="chart-bar" style="height:${pct}%;background:${color};"></div>
+            <div class="chart-bar-label">${dayName}</div>
+          </div>
+        `;
+      });
+    }
+
+    function renderHistory(data) {
+      const tbody = document.getElementById("history-body");
+      const logs = data.logs;
+
+      if (!logs || logs.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No logs yet</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = logs
+        .map(
+          (log) => `
+        <tr>
+          <td>${log.date}</td>
+          <td>${log.caloriesConsumed}</td>
+          <td>${log.proteinConsumed}g</td>
+          <td>${log.carbsConsumed}g</td>
+          <td>${log.fatConsumed}g</td>
+          <td><strong>${log.overallCompliance}%</strong></td>
+          <td><span class="badge badge-${log.status}">${log.status}</span></td>
+        </tr>`
+        )
+        .join("");
+    }
+
+    async function handleLogUpload(e) {
+      e.preventDefault();
+
+      const data = {
+        date: document.getElementById("log-date").value,
+        caloriesConsumed: document.getElementById("log-calories").value,
+        proteinConsumed: document.getElementById("log-protein").value,
+        carbsConsumed: document.getElementById("log-carbs").value,
+        fatConsumed: document.getElementById("log-fat").value,
+        notes: document.getElementById("log-notes").value,
+      };
+
+      if (!data.caloriesConsumed || !data.proteinConsumed || !data.carbsConsumed || !data.fatConsumed) {
+        showToast("Please fill all nutrient fields", "error");
+        return;
+      }
+
+      try {
+        showLoading(true);
+        const res = await fetch(`${API_BASE}/logs/upload`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...NutriAuth.authHeader(),
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await res.json();
+        if (!res.ok) throw new Error(result.error);
+
+        showToast(`Log saved! Compliance: ${result.log.overallCompliance}%`, "success");
+
+        // Reload dashboard
+        loadDashboard();
+      } catch (err) {
+        showToast(err.message || "Failed to save log", "error");
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    // Utility functions
+    function showLoading(show) {
+      const o = document.getElementById("loading-overlay");
+      if (show) o.classList.remove("hidden");
+      else o.classList.add("hidden");
+    }
+
+    function showToast(message, type = "info") {
+      const existing = document.querySelector(".toast-msg");
+      if (existing) existing.remove();
+      const t = document.createElement("div");
+      t.className = "toast-msg";
+      Object.assign(t.style, {
+        position: "fixed", bottom: "2rem", right: "2rem",
+        background: type === "success" ? "#059669" : type === "error" ? "#dc2626" : "#2563eb",
+        color: "white", padding: "0.8rem 1.5rem", borderRadius: "8px",
+        fontSize: "0.9rem", fontWeight: "500", zIndex: "10000",
+        boxShadow: "0 4px 20px rgba(0,0,0,0.3)", fontFamily: "Inter, sans-serif",
+      });
+      t.textContent = message;
+      document.body.appendChild(t);
+      setTimeout(() => { t.style.opacity = "0"; t.style.transition = "opacity 0.3s"; setTimeout(() => t.remove(), 300); }, 3000);
+    }
+  </script>
+</body>
+</html>

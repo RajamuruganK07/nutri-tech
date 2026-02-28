@@ -1,0 +1,23 @@
+{
+  "logs": [
+    {
+      "_id": "mm5laki0cpdljdsot",
+      "userId": "mm5la4j7rffhk5ta7",
+      "date": "2026-02-28",
+      "caloriesConsumed": 2500,
+      "proteinConsumed": 180,
+      "carbsConsumed": 280,
+      "fatConsumed": 70,
+      "meals": [],
+      "notes": "Good day",
+      "calorieCompliance": 93,
+      "proteinCompliance": 89,
+      "carbsCompliance": 92,
+      "fatCompliance": 93,
+      "overallCompliance": 92,
+      "status": "excellent",
+      "createdAt": "2026-02-28T00:35:17.448Z",
+      "updatedAt": "2026-02-28T00:35:17.448Z"
+    }
+  ]
+}

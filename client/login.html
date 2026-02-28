@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NutriTech - Login</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    .auth-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .auth-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: var(--shadow-lg);
+    }
+    .auth-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .auth-header .logo {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+    .auth-header .logo i {
+      color: var(--primary);
+    }
+    .auth-header p {
+      color: var(--text-secondary);
+    }
+    .auth-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 2rem;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .auth-tab {
+      flex: 1;
+      padding: 0.8rem;
+      text-align: center;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      background: transparent;
+      color: var(--text-secondary);
+      border: none;
+      font-family: inherit;
+      transition: all 0.3s;
+    }
+    .auth-tab.active {
+      background: var(--gradient);
+      color: white;
+    }
+    .auth-form {
+      display: none;
+    }
+    .auth-form.active {
+      display: block;
+    }
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: border-color 0.3s;
+    }
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .auth-submit {
+      width: 100%;
+      padding: 0.9rem;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-top: 0.5rem;
+    }
+    .auth-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+    .auth-footer a {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .profile-section {
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+      margin-top: 1rem;
+    }
+    .profile-section h3 {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="index.html" class="nav-logo">
+          <i class="fas fa-leaf"></i>
+          <span>NutriTech</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="calculator.html">Calculator</a></li>
+          <li><a href="modes.html">Modes</a></li>
+          <li><a href="features.html">Features</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="auth-page">
+    <div class="auth-container">
+      <div class="auth-header">
+        <div class="logo"><i class="fas fa-leaf"></i> NutriTech</div>
+        <p>Real-Time Nutrition Monitoring System</p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchTab('login')">Login</button>
+        <button class="auth-tab" onclick="switchTab('register')">Register</button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <form id="login-form" class="auth-form active" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="login-email" placeholder="your@email.com" required />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="login-password" placeholder="Enter password" required />
+        </div>
+        <button type="submit" class="btn btn-primary auth-submit">
+          <i class="fas fa-sign-in-alt"></i> Login
+        </button>
+      </form>
+
+      <!-- REGISTER FORM -->
+      <form id="register-form" class="auth-form" onsubmit="handleRegister(event)">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="reg-name" placeholder="Your name" required />
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="reg-email" placeholder="your@email.com" required />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="reg-password" placeholder="Min 6 characters" required minlength="6" />
+        </div>
+
+        <div class="profile-section">
+          <h3><i class="fas fa-user-cog"></i> Profile Setup (for nutrition plan)</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Age</label>
+              <input type="number" id="reg-age" placeholder="25" min="15" max="80" required />
+            </div>
+            <div class="form-group">
+              <label>Gender</label>
+              <select id="reg-gender" required>
+                <option value="">Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Weight (kg)</label>
+              <input type="number" id="reg-weight" placeholder="70" min="30" max="200" required />
+            </div>
+            <div class="form-group">
+              <label>Height (cm)</label>
+              <input type="number" id="reg-height" placeholder="170" min="120" max="230" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Job Type</label>
+              <select id="reg-jobType" required>
+                <option value="">Select</option>
+                <option value="desk">Desk Job</option>
+                <option value="moderate">Moderate</option>
+                <option value="active">Active</option>
+                <option value="heavy">Heavy Labor</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Exercise</label>
+              <select id="reg-exercise">
+                <option value="none">None</option>
+                <option value="light">Light (1-2/week)</option>
+                <option value="moderate">Moderate (3-4/week)</option>
+                <option value="intense">Intense (5-6/week)</option>
+                <option value="athlete">Athlete (Daily)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Goal</label>
+              <select id="reg-goal" required>
+                <option value="">Select</option>
+                <option value="weight_loss">Weight Loss</option>
+                <option value="mild_weight_loss">Mild Weight Loss</option>
+                <option value="maintenance">Maintenance</option>
+                <option value="muscle_gain">Muscle Gain</option>
+                <option value="bulk">Bulk</option>
+                <option value="energy_boost">Energy Boost</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Diet</label>
+              <select id="reg-diet">
+                <option value="nonveg">Non-Veg</option>
+                <option value="veg">Vegetarian</option>
+                <option value="vegan">Vegan</option>
+                <option value="eggetarian">Eggetarian</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary auth-submit">
+          <i class="fas fa-user-plus"></i> Create Account
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay hidden">
+    <div class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Loading...</p>
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+  <script>
+    // If already logged in, redirect
+    if (NutriAuth.isLoggedIn()) {
+      window.location.href = NutriAuth.isAdmin() ? "admin.html" : "dashboard.html";
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll(".auth-tab").forEach((t) => t.classList.remove("active"));
+      document.querySelectorAll(".auth-form").forEach((f) => f.classList.remove("active"));
+
+      if (tab === "login") {
+        document.querySelectorAll(".auth-tab")[0].classList.add("active");
+        document.getElementById("login-form").classList.add("active");
+      } else {
+        document.querySelectorAll(".auth-tab")[1].classList.add("active");
+        document.getElementById("register-form").classList.add("active");
+      }
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+
+      try {
+        showLoading(true);
+        const result = await NutriAuth.login(email, password);
+        showToast("Login successful!", "success");
+        setTimeout(() => {
+          window.location.href = result.user.role === "admin" ? "admin.html" : "dashboard.html";
+        }, 500);
+      } catch (err) {
+        showToast(err.message, "error");
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    async function handleRegister(e) {
+      e.preventDefault();
+      const data = {
+        name: document.getElementById("reg-name").value,
+        email: document.getElementById("reg-email").value,
+        password: document.getElementById("reg-password").value,
+        age: document.getElementById("reg-age").value,
+        gender: document.getElementById("reg-gender").value,
+        weight: document.getElementById("reg-weight").value,
+        height: document.getElementById("reg-height").value,
+        jobType: document.getElementById("reg-jobType").value,
+        exerciseFrequency: document.getElementById("reg-exercise").value,
+        goal: document.getElementById("reg-goal").value,
+        dietPreference: document.getElementById("reg-diet").value,
+      };
+
+      try {
+        showLoading(true);
+        await NutriAuth.register(data);
+        showToast("Account created! Welcome to NutriTech!", "success");
+        setTimeout(() => {
+          window.location.href = "dashboard.html";
+        }, 500);
+      } catch (err) {
+        showToast(err.message, "error");
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    // Minimal loading/toast for this page
+    function showLoading(show) {
+      const o = document.getElementById("loading-overlay");
+      if (show) o.classList.remove("hidden");
+      else o.classList.add("hidden");
+    }
+
+    function showToast(message, type = "info") {
+      const existing = document.querySelector(".toast-msg");
+      if (existing) existing.remove();
+      const t = document.createElement("div");
+      t.className = "toast-msg";
+      Object.assign(t.style, {
+        position: "fixed", bottom: "2rem", right: "2rem",
+        background: type === "success" ? "#059669" : type === "error" ? "#dc2626" : "#2563eb",
+        color: "white", padding: "0.8rem 1.5rem", borderRadius: "8px",
+        fontSize: "0.9rem", fontWeight: "500", zIndex: "10000",
+        boxShadow: "0 4px 20px rgba(0,0,0,0.3)", fontFamily: "Inter, sans-serif",
+      });
+      t.textContent = message;
+      document.body.appendChild(t);
+      setTimeout(() => { t.style.opacity = "0"; t.style.transition = "opacity 0.3s"; setTimeout(() => t.remove(), 300); }, 3000);
+    }
+  </script>
+</body>
+</html>
