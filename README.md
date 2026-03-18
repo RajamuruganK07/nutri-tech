@@ -28,8 +28,7 @@ Open http://localhost:5000 in your browser.
 ## Team
 
 - **Rajamurugan** - Co-Founder
-- **Shyam Sundar** - Co-Founder
-- **Yogeshwaran** - Co-Founder
+
 
 ## Tech Stack
 
